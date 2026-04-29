@@ -5,21 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>图书馆熬夜大作战 - 卡牌肉鸽游戏</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        function startGameClick() {
+            console.log('startGameClick called');
+            var startScreen = document.getElementById('start-screen');
+            if (startScreen) {
+                console.log('Hiding start screen');
+                startScreen.style.display = 'none';
+                startScreen.style.opacity = '0';
+                startScreen.style.zIndex = '-1';
+            }
+            setTimeout(() => {
+                console.log('Calling startGame');
+                if (window.startGame) {
+                    window.startGame();
+                } else {
+                    console.log('startGame not found');
+                }
+            }, 300);
+        }
+        
+        function aboutGameClick() {
+            alert('图书馆熬夜大作战 - 卡牌肉鸽游戏\n\n这是一款模拟大学生在图书馆熬夜赶论文的卡牌游戏。\n\n游戏特色：\n• 卡牌战斗系统\n• 困意机制\n• 随机事件\n• 策略选择\n\n祝你好运，完成论文！');
+        }
+        
+        function exitGameClick() {
+            if (confirm('确定要退出游戏吗？')) {
+                window.close();
+            }
+        }
+    </script>
 </head>
 <body>
     <canvas id="particle-canvas"></canvas>
     
     <div id="start-screen" class="start-screen">
         <img src="resource/screen.png" class="layer-bg">
-        <button class="start-btn btn-start" id="start-btn">
+        <div class="start-btn btn-start" id="start-btn" onclick="startGameClick()">
             <img src="resource/start.png" alt="开始工作">
-        </button>
-        <button class="start-btn btn-about" id="about-btn">
+        </div>
+        <div class="start-btn btn-about" id="about-btn" onclick="aboutGameClick()">
             <img src="resource/aboutus.png" alt="关于我们">
-        </button>
-        <button class="start-btn btn-exit" id="exit-btn">
+        </div>
+        <div class="start-btn btn-exit" id="exit-btn" onclick="exitGameClick()">
             <img src="resource/leave.png" alt="退出">
-        </button>
+        </div>
     </div>
     
     <div class="game-container">
