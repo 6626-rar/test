@@ -564,6 +564,8 @@ body {
     height: 100vh;
     z-index: 2000;
     overflow: hidden;
+    transition: opacity 0.3s ease;
+    background-color: #000;
 }
 
 .layer-bg {
@@ -582,15 +584,19 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
     z-index: 1;
+    pointer-events: none;
 }
 
 .start-btn {
     position: absolute;
     border: none;
-    background: none;
+    background: transparent;
     cursor: pointer;
     padding: 0;
-    z-index: 10;
+    z-index: 100;
+    outline: none;
+    display: block;
+    cursor: pointer;
 }
 
 .start-btn img {
@@ -601,21 +607,27 @@ body {
 }
 
 .btn-start {
-    top: 260px;
-    left: 560px;
-    width: 90px;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 60px;
 }
 
 .btn-about {
-    top: 340px;
-    left: 540px;
-    width: 85px;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 60px;
 }
 
 .btn-exit {
-    top: 400px;
-    left: 525px;
-    width: 68px;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 60px;
 }
 
 @media (max-width: 768px) {
