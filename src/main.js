@@ -412,12 +412,18 @@ class Game {
 }
 
 // 启动游戏
+let game = null;
+
+window.startGame = function() {
+    console.log('window.startGame called');
+    if (!game) {
+        console.log('Creating new Game instance');
+        game = new Game();
+    } else {
+        console.log('Game already exists');
+    }
+};
+
 window.addEventListener('DOMContentLoaded', () => {
-    // 延迟初始化，确保DOM完全加载
-    setTimeout(() => {
-        let game = null;
-        const startScreen = new StartScreen(() => {
-            game = new Game();
-        });
-    }, 100);
+    console.log('DOMContentLoaded');
 });
