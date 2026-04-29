@@ -597,6 +597,17 @@ body {
     outline: none;
     display: block;
     cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.start-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.start-btn:active {
+    transform: scale(0.98);
+    filter: brightness(0.95);
 }
 
 .start-btn img {
@@ -607,25 +618,22 @@ body {
 }
 
 .btn-start {
-    top: 35%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    height: 60px;
+    top: 28%;
+    left: 45%;
+    width: 180px;
+    height: 70px;
 }
 
 .btn-about {
-    top: 45%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    height: 60px;
+    top: 38%;
+    left: 45%;
+    width: 180px;
+    height: 70px;
 }
 
 .btn-exit {
-    top: 55%;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 48%;
+    left: 46%;
     width: 150px;
     height: 60px;
 }
