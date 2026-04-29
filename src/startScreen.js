@@ -10,9 +10,9 @@ class StartScreen {
     }
     
     bindEventListeners() {
-        this.startBtn.addEventListener('click', () => this.handleExit());
+        this.startBtn.addEventListener('click', () => this.handleStart());
         this.aboutBtn.addEventListener('click', () => this.showAbout());
-        this.exitBtn.addEventListener('click', () => this.handleStart());
+        this.exitBtn.addEventListener('click', () => this.handleExit());
     }
     
     handleStart() {
