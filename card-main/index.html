@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书馆熬夜大作战 - 卡牌肉鸽游戏</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function startGameClick() {
+            console.log('startGameClick called');
+            var startScreen = document.getElementById('start-screen');
+            if (startScreen) {
+                console.log('Hiding start screen');
+                startScreen.style.display = 'none';
+                startScreen.style.opacity = '0';
+                startScreen.style.zIndex = '-1';
+            }
+            setTimeout(() => {
+                console.log('Calling startGame');
+                if (window.startGame) {
+                    window.startGame();
+                } else {
+                    console.log('startGame not found');
+                }
+            }, 300);
+        }
+        
+        function aboutGameClick() {
+            alert('图书馆熬夜大作战\n\n我们的这款游戏讲述着一位同学熬夜赶论文的故事。主角要熬夜完成任务，期间会经历种种困难，逐渐提升自己，并在人间找回属于自己的温柔。游戏设计的模式是卡牌游戏，也就是需要玩家利用每回合限有的精力进行操作打败敌人。\n\n\n我们游戏与传统游戏的小小区别是我们的生命条严格来说有两条，也就是困意条和时间条，困意条是逐渐增加的，满了就会睡着，熬夜失败；时间条是逐渐减少的，时间条空了就相当于失败任务了。其次，我们设计的机制非常简单易懂，方便各位同学在匆忙的生活也能放松身心。\n\n\n你每个回合都会得到一定数量的卡牌，每张卡牌都有独特的效果和精力的需求，精力用完了就只能结束回合，要等待敌人完成回合后才能再次使用卡牌。顺带一提，专注值能提供额外的恢复和攻击，这不会反馈在卡牌描述里，但会体现在最后效果里。\n\n\n你现在的任务有三个，第一个任务是提升专注值至7，第二个任务是随意打败2个敌人，第三个任务是可选任务，是打败一位BOSS也就是「论文第一章」。至此，请加油吧。');
+        }
+        
+        function exitGameClick() {
+            if (confirm('确定要退出游戏吗？')) {
+                window.close();
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    
+    <div id="start-screen" class="start-screen">
+        <img src="resource/screen.png" class="layer-bg">
+        <div class="start-btn btn-start" id="start-btn" onclick="startGameClick()">
+            <img src="resource/start.png" alt="开始工作">
+        </div>
+        <div class="start-btn btn-about" id="about-btn" onclick="aboutGameClick()">
+            <img src="resource/aboutus.png" alt="关于我们">
+        </div>
+        <div class="start-btn btn-exit" id="exit-btn" onclick="exitGameClick()">
+            <img src="resource/leave.png" alt="退出">
+        </div>
+    </div>
+    
+    <div class="game-container">
+        <div class="header">
+            <h1>图书馆熬夜大作战</h1>
+            <p>大学生卡牌肉鸽游戏 - 赶论文生存挑战</p>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-card">
+                <h3>困意 (KN)</h3>
+                <div class="stat-value" id="kn-value">0</div>
+                <div class="stat-bar">
+                    <div class="stat-fill kn-fill" id="kn-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>专注</h3>
+                <div class="stat-value" id="focus-value">0</div>
+                <div class="stat-bar">
+                    <div class="stat-fill focus-fill" id="focus-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>精力</h3>
+                <div class="stat-value" id="energy-value">0</div>
+                <div class="stat-bar">
+                    <div class="stat-fill energy-fill" id="energy-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>HP</h3>
+                <div class="stat-value" id="hp-value">0</div>
+                <div class="stat-bar">
+                    <div class="stat-fill hp-fill" id="hp-bar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="player-panel">
+                <h2>你的角色</h2>
+                <div class="player-info">
+                    <div class="player-avatar" id="player-avatar">📚</div>
+                    <div class="player-stats">
+                        <div class="player-stat">
+                            <span class="stat-label">生命值</span>
+                            <span class="stat-value" id="player-hp-display">100/100</span>
+                        </div>
+                        <div class="player-stat">
+                            <span class="stat-label">专注度</span>
+                            <span class="stat-value" id="player-focus-display">2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="enemy-panel">
+                <h2>当前敌人</h2>
+                <div class="enemy-info">
+                    <div class="enemy-name" id="enemy-name"></div>
+                    <div class="enemy-hp" id="enemy-hp"></div>
+                    <div class="stat-bar">
+                        <div class="stat-fill hp-fill" id="enemy-hp-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div id="enemy-action"></div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <button class="btn btn-secondary" id="map-btn">地图</button>
+            <button class="btn btn-rest" id="rest-btn" style="display: none;">休息 (-20 KN)</button>
+            <button class="btn btn-primary" id="end-turn-btn">结束回合</button>
+            <button class="btn btn-primary" id="next-level-btn" style="display: none;">下一关</button>
+        </div>
+
+        <div class="event-panel hidden" id="event-panel">
+            <h2>随机事件</h2>
+            <div class="event-text" id="event-text"></div>
+            <div class="event-options" id="event-options"></div>
+        </div>
+
+        <div class="card-area">
+            <h2>你的卡牌</h2>
+            <div class="cards-container" id="cards-container"></div>
+        </div>
+
+    </div>
+
+    <div class="modal hidden" id="map-modal">
+        <div class="modal-content">
+            <h2>地图</h2>
+            <div id="map-container"></div>
+            <button class="btn btn-secondary" id="close-map-btn">关闭</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="game-over-modal">
+        <div class="modal-content">
+            <h2>游戏结束</h2>
+            <p id="game-over-text"></p>
+            <button class="btn btn-primary" id="restart-btn">重新开始</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="level-up-modal">
+        <div class="modal-content">
+            <h2>关卡完成！</h2>
+            <p id="level-up-text"></p>
+            <button class="btn btn-primary" id="continue-btn">继续</button>
+        </div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
